@@ -7,7 +7,7 @@ def get_url_tiempo():
     return "https://www.eltiempo.com/"
 
 
-def get_url_espectador():
+def get_url_publimetro():
     return "https://www.elespectador.com/"
 
 
@@ -28,12 +28,12 @@ def get_html(url):
 def f():
     fecha_actual = get_date()
     html_tiempo = get_html(get_url_tiempo())
-    html_espectador = get_html(get_url_espectador())
+    html_publimetro = get_html(get_url_publimetro())
     s3 = get_boto()
     s3.put_object(Body=html_tiempo,
-                  Bucket='landing-casas-20020503',
-                  Key=str(fecha_actual)+".html")
-    s3.put_object(Body=html_espectador,
-                  Bucket='landing-casas-20020503',
-                  Key=str(fecha_actual)+".html")
+                  Bucket='',
+                  Key="eltiempo-"+str(fecha_actual)+".html")
+    s3.put_object(Body=html_publimetro,
+                  Bucket='',
+                  Key="publimetro-"+str(fecha_actual)+".html")
     return "hola"
