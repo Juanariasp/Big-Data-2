@@ -8,7 +8,7 @@ def get_url_tiempo():
 
 
 def get_url_publimetro():
-    return "https://www.elespectador.com/"
+    return "https://www.publimetro.co/"
 
 
 def get_boto():
@@ -25,15 +25,14 @@ def get_html(url):
     return html
 
 
-def f():
+def obtener_html():
     fecha_actual = get_date()
     html_tiempo = get_html(get_url_tiempo())
     html_publimetro = get_html(get_url_publimetro())
     s3 = get_boto()
     s3.put_object(Body=html_tiempo,
-                  Bucket='',
+                  Bucket='segundo-1001168599/headlines/raw/',
                   Key="eltiempo-"+str(fecha_actual)+".html")
     s3.put_object(Body=html_publimetro,
-                  Bucket='',
+                  Bucket='segundo-1001168599/headlines/raw/',
                   Key="publimetro-"+str(fecha_actual)+".html")
-    return "hola"

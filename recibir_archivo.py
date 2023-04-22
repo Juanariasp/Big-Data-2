@@ -6,12 +6,13 @@ from bs4 import BeautifulSoup
 def f():
     nombre = str(datetime.today().strftime('%Y-%m-%d'))
     s3 = boto3.resource('s3')
-    bucket = s3.Bucket('')
+    bucket = s3.Bucket('segundo-1001168599')
     
-    obj_tiempo = bucket.Object(str("eltiempo-" + nombre + ".html"))
+    obj_tiempo = bucket.Object(str("/headlines/raw/" + "eltiempo-" + nombre + ".html"))
+    
     body_tiempo = obj_tiempo.get()['Body'].read()
     
-    obj_publimetro = bucket.Object(str("publimetro-" + nombre + ".html"))
+    obj_publimetro = bucket.Object(str("/headlines/raw/" + "publimetro-" + nombre + ".html"))
     body_publimetro = obj_publimetro.get()['Body'].read()
     
     html_tiempo = BeautifulSoup(body_tiempo, 'html.parser')
@@ -39,7 +40,7 @@ def f():
             link + \
             "\n"
             
-    boto3.client('s3').put_object(Body=linea_0, Bucket='casas-fina-20020503',
+    boto3.client('s3').put_object(Body=csv_tiempo, Bucket='',
                                   Key=str(nombre+".csv"))
-    boto3.client('s3').put_object(Body=linea_0, Bucket='casas-fina-20020503',
+    boto3.client('s3').put_object(Body=csv_publimetro, Bucket='',
                                   Key=str(nombre+".csv"))
