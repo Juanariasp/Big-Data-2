@@ -7,9 +7,13 @@ def f():
     nombre = str(datetime.today().strftime('%Y-%m-%d'))
     s3 = boto3.resource('s3')
     bucket = s3.Bucket('segundo-1001168599')
-    obj_tiempo = bucket.Object(str("/headlines/raw/" + "eltiempo-" + nombre + ".html"))
+    obj_tiempo = bucket.Object(str("/headlines/raw/" +
+                                   "eltiempo-" + nombre +
+                                   ".html"))
     body_tiempo = obj_tiempo.get()['Body'].read()
-    obj_publimetro = bucket.Object(str("/headlines/raw/" + "publimetro-" + nombre + ".html"))
+    obj_publimetro = bucket.Object(str("/headlines/raw/" +
+                                       "publimetro-" + nombre +
+                                       ".html"))
     body_publimetro = obj_publimetro.get()['Body'].read()
     html_tiempo = BeautifulSoup(body_tiempo, 'html.parser')
     html_publimetro = BeautifulSoup(body_publimetro, 'html.parser')
@@ -17,8 +21,10 @@ def f():
     data_noticias_publimetro = html_publimetro.find_all('article')
     linea_0 = "Name, Category, Link\n"
     for i in range(len(data_noticias_tiempo)):
-        link = "eltiempo.com"+data_noticias_tiempo[i].find('a', class_='title page-link')['href']
-        name = data_noticias_tiempo[i]['data-name'].replace(",","") 
+        link = "eltiempo.com" + \
+               data_noticias_tiempo[i].find('a',
+                                            class_='title page-link')['href']
+        name = data_noticias_tiempo[i]['data-name'].replace(",", "")
         category = data_noticias_tiempo[i]['data-seccion']
         csv_tiempo = linea_0 + name + "," + \
             category + "," + \
@@ -26,13 +32,25 @@ def f():
             "\n"
     for i in range(len(data_noticias_publimetro)):
         link = "publimetro.co" + data_noticias_publimetro[i].find('a')['href']
-        name = (data_noticias_publimetro[i].find('a').text).replace(",","")
+        name = (data_noticias_publimetro[i].find('a').text).replace(",", "")
         category = link.split('/')[i]
         csv_publimetro = linea_0 + name + "," + \
             category + "," + \
             link + \
             "\n"
-    boto3.client('s3').put_object(Body=csv_tiempo, Bucket='segundo-1001168599/headlines/final/periodico=eltiempo/year='+nombre[:4]+'/month='+nombre[5:7]+'/day='+nombre[8:],
+    boto3.client('s3').put_object(Body=csv_tiempo,
+                                  Bucket='segundo-1001168599' +
+                                         '/headlines/final' +
+                                         '/periodico=eltiempo/year=' +
+                                         nombre[:4]+'/month=' +
+                                         nombre[5:7]+'/day=' +
+                                         nombre[8:],
                                   Key=str("eltiempo.csv"))
-    boto3.client('s3').put_object(Body=csv_publimetro, Bucket='segundo-1001168599/headlines/final/periodico=publimetro/year='+nombre[:4]+'/month='+nombre[5:7]+'/day='+nombre[8:],
+    boto3.client('s3').put_object(Body=csv_publimetro,
+                                  Bucket='segundo-1001168599' +
+                                         '/headlines/final' +
+                                         '/periodico=publimetro/year=' +
+                                         nombre[:4]+'/month=' +
+                                         nombre[5:7]+'/day=' +
+                                         nombre[8:],
                                   Key=str("publimetro.csv"))
