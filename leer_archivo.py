@@ -31,8 +31,8 @@ def obtener_html():
     html_publimetro = get_html(get_url_publimetro())
     s3 = get_boto()
     s3.put_object(Body=html_tiempo,
-                  Bucket='segundo-1001168599/headlines/raw/',
-                  Key="eltiempo-"+str(fecha_actual)+".html")
+                  Bucket='segundo-1001168599',
+                  Key="headlines/raw/eltiempo-"+str(fecha_actual)+".html")
     s3.put_object(Body=html_publimetro,
-                  Bucket='segundo-1001168599/headlines/raw/',
-                  Key="publimetro-"+str(fecha_actual)+".html")
+                  Bucket='segundo-1001168599',
+                  Key="headlines/raw/publimetro-"+str(fecha_actual)+".html")

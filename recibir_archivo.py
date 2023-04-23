@@ -7,11 +7,11 @@ def f():
     nombre = str(datetime.today().strftime('%Y-%m-%d'))
     s3 = boto3.resource('s3')
     bucket = s3.Bucket('segundo-1001168599')
-    obj_tiempo = bucket.Object(str("/headlines/raw/" +
+    obj_tiempo = bucket.Object(str("headlines/raw/" +
                                    "eltiempo-" + nombre +
                                    ".html"))
     body_tiempo = obj_tiempo.get()['Body'].read()
-    obj_publimetro = bucket.Object(str("/headlines/raw/" +
+    obj_publimetro = bucket.Object(str("headlines/raw/" +
                                        "publimetro-" + nombre +
                                        ".html"))
     body_publimetro = obj_publimetro.get()['Body'].read()
@@ -39,18 +39,16 @@ def f():
             link + \
             "\n"
     boto3.client('s3').put_object(Body=csv_tiempo,
-                                  Bucket='segundo-1001168599' +
-                                         '/headlines/final' +
-                                         '/periodico=eltiempo/year=' +
-                                         nombre[:4]+'/month=' +
-                                         nombre[5:7]+'/day=' +
-                                         nombre[8:],
-                                  Key=str("eltiempo.csv"))
+                                  Bucket='segundo-1001168599',
+                                  Key=str('headlines/final' +
+                                          '/periodico=eltiempo/year=' +
+                                          nombre[:4]+'/month=' +
+                                          nombre[5:7]+'/day=' +
+                                          nombre[8:]+'/eltiempo.csv'))
     boto3.client('s3').put_object(Body=csv_publimetro,
-                                  Bucket='segundo-1001168599' +
-                                         '/headlines/final' +
-                                         '/periodico=publimetro/year=' +
-                                         nombre[:4]+'/month=' +
-                                         nombre[5:7]+'/day=' +
-                                         nombre[8:],
-                                  Key=str("publimetro.csv"))
+                                  Bucket='segundo-1001168599',
+                                  Key=str('headlines/final' +
+                                          '/periodico=publimetro/year=' +
+                                          nombre[:4]+'/month=' +
+                                          nombre[5:7]+'/day=' +
+                                          nombre[8:]+'/publimetro.csv'))
