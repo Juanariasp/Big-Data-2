@@ -19,22 +19,24 @@ def f():
     html_publimetro = BeautifulSoup(body_publimetro, 'html.parser')
     data_noticias_tiempo = html_tiempo.find_all('article')
     data_noticias_publimetro = html_publimetro.find_all('article')
-    linea_0 = "Name, Category, Link\n"
+    csv_tiempo = ""
+    csv_publimetro = ""
+    linea_0 = "Nombre, Categoria, Link\n"
     for i in range(len(data_noticias_tiempo)):
         link = "eltiempo.com" + \
                data_noticias_tiempo[i].find('a',
                                             class_='title page-link')['href']
         name = data_noticias_tiempo[i]['data-name'].replace(",", "")
         category = data_noticias_tiempo[i]['data-seccion']
-        csv_tiempo = linea_0 + name + "," + \
+        csv_tiempo += linea_0 + name + "," + \
             category + "," + \
             link + \
             "\n"
     for i in range(len(data_noticias_publimetro)):
         link = "publimetro.co" + data_noticias_publimetro[i].find('a')['href']
         name = (data_noticias_publimetro[i].find('a').text).replace(",", "")
-        category = link.split('/')[i]
-        csv_publimetro = linea_0 + name + "," + \
+        category = link.split('/')[1]
+        csv_publimetro += linea_0 + name + "," + \
             category + "," + \
             link + \
             "\n"
@@ -52,3 +54,6 @@ def f():
                                           nombre[:4]+'/month=' +
                                           nombre[5:7]+'/day=' +
                                           nombre[8:]+'/publimetro.csv'))
+                                          
+                                          
+f()
