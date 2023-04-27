@@ -1,6 +1,5 @@
-import boto3
 from datetime import datetime
-from leer_archivo import get_url_tiempo, get_boto, get_date, get_url_publimetro
+from leer_archivo import get_url_tiempo, get_date, get_url_publimetro
 
 
 def test_get_date():
