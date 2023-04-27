@@ -36,3 +36,6 @@ def obtener_html():
     s3.put_object(Body=html_publimetro,
                   Bucket='segundo-1001168599',
                   Key="headlines/raw/publimetro-"+str(fecha_actual)+".html")
+
+
+obtener_html()
